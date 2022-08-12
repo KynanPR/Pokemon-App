@@ -1,3 +1,7 @@
+/* Colours */
+/* Font Weights & Sizes */
+/* Paddings, Margins & Borders */
+/* Responsive Design Ranges */
 * {
   box-sizing: border-box;
 }
@@ -110,4 +114,76 @@ button:focus,
   .main-list {
     width: 350;
   }
+}
+#modal-container, #modal-container.is-visible {
+  position: fixed;
+  padding: 20px;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  /* to show it above other content */
+  z-index: 999;
+  /* to allow scrolling if the screen is not high enough*/
+  overflow: auto;
+  /* this is used to center the modal */
+  display: none;
+  text-align: center;
+}
+
+#modal-container.is-visible {
+  display: block;
+}
+
+.modal {
+  margin: auto;
+  display: inline-block;
+  background: #fff;
+  padding: 10px;
+  width: 100%;
+  max-width: 700px;
+  text-align: left;
+}
+.modal h1 {
+  margin-top: 0;
+}
+.modal p {
+  margin-bottom: 0;
+}
+.modal img {
+  display: flex;
+  justify-content: center;
+  border-radius: 50%;
+  margin-right: 10px;
+  width: 250px;
+  height: auto;
+}
+
+.modal-grid {
+  display: grid;
+  grid-template-columns: 1fr 250px;
+  grid-template-rows: 1fr;
+  column-gap: 10px;
+}
+.modal-grid div {
+  border: 2px solid #555;
+  padding: 10px;
+}
+
+#modal-text-container {
+  grid-column-start: 1;
+}
+
+#modal-image-container {
+  grid-column-start: 2;
+}
+
+.modal-close {
+  float: right;
+  -webkit-appearance: none;
+  border: 0;
+  background: none;
+  color: #333333;
+  text-decoration: underline;
 }

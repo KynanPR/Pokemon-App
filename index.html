@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w==" crossorigin="anonymous"/>
@@ -9,12 +10,33 @@
 
   </head>
   <body>
+
+    <button id='show-modal'>Show Modal</button>
+    <button id='show-dialog'>Show Dialog</button>
+
+    <div id='modal-container'></div>
+
     <main>
       <ul class="main-list">
       </ul>
-      <script src="js/promise-polyfill.js"></script>
-      <script src="js/fetch-polyfill.js"></script>
-      <script src="js/scripts.js"></script>
     </main>
+
+    <form id='register-form'>
+          <div class='input-wrapper'>
+            <label for='email'>E-mail</label>
+            <input id='email'>
+          </div>
+
+          <div class='input-wrapper'>
+            <label for='password'>Password</label>
+            <input id='password' type='password'>
+          </div>
+          <button>Register</button>
+      </form>
+
+    <script src="js/promise-polyfill.js"></script>
+    <script src="js/fetch-polyfill.js"></script>
+    <script src="js/scripts.js"></script>
+
   </body>
 </html>
