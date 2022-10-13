@@ -1,3 +1,30 @@
+// Modal IIFE
+let modals = (function() {
+
+    let modalContainer = document.querySelector('#modal-container');
+    let dialogPromiseReject;
+
+    // Modal functionality
+    function showModal(title, content) {
+
+      let modal = $('#demoModal');
+
+      modal.find('.modal-title').text(title);
+      modal.find('.modal-body').html(content);
+
+      $('#demoModal').modal('show');
+    }
+
+    // // Dialog functionality
+    // function showDialog(title, text, saftyFocus) {
+    //   showModal(title, text);
+
+    return {
+      showModal: showModal,
+      //showDialog: showDialog,
+    };
+  })();
+
 // Setup IIFE to protect pokemonList
 // Create pokemonRepository object with properies of add & getAll functions
 let pokemonRepository = (function() {
@@ -216,122 +243,3 @@ function makeProper(text, everyWord) {
   let properText = wordList.join(' ');
   return properText;
 }
-
-// Modal IIFE
-let modals = (function() {
-  let modalContainer = document.querySelector('#modal-container');
-  let dialogPromiseReject;
-
-  // Modal functionality
-  function showModal(title, content) {
-
-    // Clear existing content
-    modalContainer.innerHTML = '';
-
-    let modal = document.createElement('div');
-    modal.classList.add('modal');
-
-    // Add new content
-    let closeButtonElement = document.createElement('button');
-    closeButtonElement.classList.add('modal-close');
-    closeButtonElement.innerText = 'Close';
-    closeButtonElement.addEventListener('click', hideModal);
-
-    let titleElement = document.createElement('h1');
-    titleElement.innerText = title;
-
-    let contentElement = document.createElement('p');
-    if (typeof content === 'string') {
-      contentElement.innerText = content;
-    } else {
-      contentElement.appendChild(content);
-    }
-
-    modal.appendChild(closeButtonElement);
-    modal.appendChild(titleElement);
-    modal.appendChild(contentElement);
-    modalContainer.appendChild(modal);
-
-    modalContainer.classList.add('is-visible');
-  }
-
-  // Hide Modal function
-  function hideModal() {
-    let modalContainer = document.querySelector('#modal-container');
-    modalContainer.classList.remove('is-visible');
-
-    if (dialogPromiseReject) {
-      dialogPromiseReject();
-      dialogPromiseReject = null;
-    }
-  }
-
-  // Dialog functionality
-  function showDialog(title, text, saftyFocus) {
-    showModal(title, text);
-
-    let modal = modalContainer.querySelector('.modal');
-
-    // Create confirm button
-    let confirmButton = document.createElement('button');
-    confirmButton.classList.add('modal-confirm');
-    confirmButton.innerText = 'Confirm';
-
-    // Create cancel button
-    let cancelButton = document.createElement('button');
-    cancelButton.classList.add('modal-cancel');
-    cancelButton.innerText = 'Cancel';
-
-    // Append buttons to Modal
-    modal.appendChild(confirmButton);
-    modal.appendChild(cancelButton);
-
-    let focusButton = saftyFocus ? cancelButton : confirmButton;
-    focusButton.focus();
-
-    // Return promise - Resolves when confirmed, else rejects
-    return new Promise((resolve, reject) => {
-      cancelButton.addEventListener('click', hideModal);
-      confirmButton.addEventListener('click', () => {
-        dialogPromiseReject = null; // Reset
-        hideModal();
-        resolve();
-      });
-      dialogPromiseReject = reject;
-    });
-  }
-
-  // Add click event listener to Show Modal button
-  document.querySelector('#show-modal').addEventListener('click', () => {
-    showModal('Title!', 'Content innit');
-  });
-
-  // Add click event listener to Show Dialog button
-  document.querySelector('#show-dialog').addEventListener('click', () => {
-    showDialog('Confirm action', 'Are you sure?', false).then(function() {
-      alert('Confirmed');
-    }, () => {
-      alert('Not Confirmed');
-    });
-  });
-
-  // Modal Escape-Key event listener
-  window.addEventListener('keydown', (e) => {
-    let modalContainer = document.querySelector('#modal-container');
-    if (e.key === 'Escape' && modalContainer.classList.contains('is-visible')) {
-      hideModal();
-    }
-  });
-
-  // Hide Model on outside click
-  modalContainer.addEventListener('click', (event) => {
-    if (event.target === modalContainer) {
-      hideModal();
-    }
-  });
-
-  return {
-    showModal: showModal,
-    showDialog: showDialog,
-  };
-})();
