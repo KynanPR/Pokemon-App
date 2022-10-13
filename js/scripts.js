@@ -48,6 +48,9 @@ let pokemonRepository = (function() {
     let listItem = document.createElement('li');
     let listItemButton = document.createElement('button');
 
+    listItem.classList.add('list-group-item', 'text-center');
+    listItemButton.classList.add('btn', 'btn-dark');
+
     listItemButton.innerText = makeProper(name);
     listItemButton.classList.add('main-list__button');
     listItemButton.addEventListener('click', function(event) {
