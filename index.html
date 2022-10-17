@@ -32,56 +32,31 @@
       </div>
     </nav>
 
-    <div class="container">
-      <div class="row">
-        <button id="show-modal" class="btn btn-info col-md-6 col-12" type="button" data-toggle="modal" data-target="#demoModal">Show Modal</button>
-        <button id="show-dialog" class="btn btn-info col-md-6 col-12">Show Dialog</button>
-      </div>
-    </div>
-
-    <div id="demoModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="demoModalLabel" aria-hidden="true">
-       <div class="modal-dialog" role="document">
-         <div class="modal-content">
-           <div class="modal-header">
-             <h5 class="modal-title" id="demoModalLabel">
-               Demo Modal
-             </h5>
-             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-               <span aria-hidden="true  ">&times;</span>
-             </button>
-           </div>
-           <div class="modal-body">
-             ...
-           </div>
-           <div class="modal-footer">
-             <button type="button" class="btn btn-secondary" data-dismiss="modal">
-               Close
-             </button>
-             <button type="button" class="btn btn-primary">
-               Action!
-             </button>
-           </div>
-         </div>
-       </div>
-    </div>
-
     <main class="container">
-      <ul class="main-list list-unstyled list-group col-4 offset-4" >
+      <ul class="main-list list-unstyled list-group col-4 offset-4">
       </ul>
     </main>
 
-    <form id="register-form">
-          <div class="input-wrapper">
-            <label for="email">E-mail</label>
-            <input id="email">
+     <!-- Modal -->
+     <div class="modal fade" id="pokemonModal" tabindex="-1" role="dialog" aria-labelledby="pokemonModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="pokemonModalLabel">Modal title</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
           </div>
+          <div class="modal-body">
+            ...
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">OK</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
-          <div class="input-wrapper">
-            <label for="password">Password</label>
-            <input id="password" type="password">
-          </div>
-          <button>Register</button>
-      </form>
     <script
       src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
       integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E="

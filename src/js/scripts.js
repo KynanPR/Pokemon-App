@@ -1,30 +1,3 @@
-// Modal IIFE
-let modals = (function() {
-
-    let modalContainer = document.querySelector('#modal-container');
-    let dialogPromiseReject;
-
-    // Modal functionality
-    function showModal(title, content) {
-
-      let modal = $('#demoModal');
-
-      modal.find('.modal-title').text(title);
-      modal.find('.modal-body').html(content);
-
-      $('#demoModal').modal('show');
-    }
-
-    // // Dialog functionality
-    // function showDialog(title, text, saftyFocus) {
-    //   showModal(title, text);
-
-    return {
-      showModal: showModal,
-      //showDialog: showDialog,
-    };
-  })();
-
 // Setup IIFE to protect pokemonList
 // Create pokemonRepository object with properies of add & getAll functions
 let pokemonRepository = (function() {
@@ -43,61 +16,52 @@ let pokemonRepository = (function() {
 
   // Create function to add pokemon button item to DOM and display on page
   function addListItem(pokemon) {
-    let name = pokemon.name;
-    let writeList = document.querySelector('.main-list');
-    let listItem = document.createElement('li');
-    let listItemButton = document.createElement('button');
-
-    listItem.classList.add('list-group-item', 'text-center');
-    listItemButton.classList.add('btn', 'btn-dark');
-
-    listItemButton.innerText = makeProper(name);
-    listItemButton.classList.add('main-list__button');
-    listItemButton.addEventListener('click', function(event) {
-      showDetails(pokemon);
-    });
-    listItem.appendChild(listItemButton);
-    writeList.appendChild(listItem);
+    let pokemonList = $('.main-list');
+    let button = $('<button></button>')
+        .addClass('list-group-item text-center')
+        .addClass('btn btn-outline-dark mb-3 pokemon-list-item')
+        .attr('data-toggle', 'modal')
+        .attr('role', 'listItem')
+        .attr('type', 'button')
+        .attr('data-target', '#pokemonModal')
+        .text(makeProper(pokemon.name, true))
+        .on({
+        click: () => {
+            showDetails(pokemon);
+          }
+      });
+    pokemonList.append(button);
   }
 
   // To show details of clicked pokemon
   function showDetails(pokemon) {
     loadDetails(pokemon).then(function() {
-      properName = makeProper(pokemon.name, true);
+        showModal(pokemon);
+      });
+  }
 
-      // Create container div for detail elements
-      let detailContainer = document.createElement('div');
-      detailContainer.classList.add('modal-grid');
+  // Implement the modal
+  function showModal(pokemon) {
+    let modalTitle = $('.modal-title');
+    let modalBody = $('.modal-body');
+    console.log(pokemon.name);
 
-      // Create containers for text and images to allow grid layout
-      let textContainer = document.createElement('div');
-      textContainer.id = 'modal-text-container';
-      let imageContainer = document.createElement('div');
-      imageContainer.id = 'modal-image-container';
+    modalTitle.empty();
+    modalBody.empty();
+    let pokemonName = $('<h2>' + makeProper(pokemon.name, true) + '</h2>');
 
-      // Create elements for pokemon details
-      let nameElement = document.createElement('p');
-      nameElement.innerText = `Pokemon Name - ${properName}`;
+    let pokemonHeight = $('<p>' + 'Height: ' + pokemon.height + '</p>');
 
-      let heightElement = document.createElement('p');
-      heightElement.innerText = `Pokemon Height - ${pokemon.height}`;
+    let pokemonWeight = $('<p>' + 'Weight: ' + pokemon.weight + '</p>');
 
-      let imageElement = document.createElement('img');
-      imageElement.classList.add('modal-img');
-      imageElement.src = pokemon.imageUrl;
-      imageElement.alt = 'Default front image of Pokemon';
+    let pokemonImage = $('<img class=\'pokemon-modal-image\'>');
+    pokemonImage.attr('src', pokemon.imageUrl);
 
-      // Append detail elements onto container div
-      textContainer.appendChild(nameElement);
-      textContainer.appendChild(heightElement);
-      imageContainer.appendChild(imageElement);
-      detailContainer.appendChild(textContainer);
-      detailContainer.appendChild(imageContainer);
+    modalTitle.append(pokemonName); // pokemonName is displayed as the title in the modal
+    modalBody.append(pokemonImage); // pokemonImage is displayed in the body of the modal
+    modalBody.append(pokemonHeight); // pokemonHeight is displayed in the body of the modal
+    modalBody.append(pokemonWeight); // pokemonWeight is displayed in the body of the modal
 
-      // Create Modal with container as content argument
-      modals.showModal(properName, detailContainer);
-
-    });
   }
 
   // Fetch base pokemon list from API and add each one to pokemonList
@@ -125,6 +89,7 @@ let pokemonRepository = (function() {
     }).then(function(details) {
       item.imageUrl = details.sprites.front_default;
       item.height = details.height;
+      item.weight = details.weight;
       item.types = details.types;
     }).catch(function(error) {
       console.error(error);
@@ -138,6 +103,7 @@ let pokemonRepository = (function() {
     addListItem: addListItem,
     loadList: loadList,
     loadDetails: loadDetails,
+    showDetails: showDetails,
   };
 })();
 
@@ -148,101 +114,17 @@ pokemonRepository.loadList().then(function() {
   });
 });
 
-function getCuteMessage(height) {
-  return height <= 0.5 ? '<i> - So small and cute!</i>' : '';
-}
-
-// Form validation IIFE
-let formValidation = (function() {
-  let form = document.querySelector('#register-form');
-  let emailInput = document.querySelector('#email');
-  let passwordInput = document.querySelector('#password');
-
-  // Generic error message function
-  function formShowErrorMessage(input, message) {
-    let container = input.parentElement;
-    let error = container.querySelector('.error-message');
-
-    if (error) {
-      container.removeChild(error);
-    }
-
-    if (message) {
-      let error = document.createElement('div');
-      error.classList.add('error-message');
-      error.innerText = message;
-      container.appendChild(error);
-    }
-  }
-
-  // Basic email validation
-  function formValidateEmail() {
-    let value = emailInput.value;
-
-    // Check for empty email
-    if (!value) {
-      formShowErrorMessage(emailInput, 'Email is a required field.');
-      return false;
-    }
-    // Check for @ sign
-    if (value.indexOf('@') === -1) {
-      formShowErrorMessage(emailInput, 'Invalid email address.');
-      return false;
-    }
-
-    formShowErrorMessage(emailInput, null);
-  }
-
-  // Basic password validation
-  function formValidatePassword() {
-    let value = passwordInput.value;
-
-    // Check for empty password
-    if (!value) {
-      formShowErrorMessage(passwordInput, 'Password is a required field.');
-      return false;
-    }
-    // Check for password length
-    if (value.length < 8) {
-      formShowErrorMessage(passwordInput, 'Password must be at least 8 characters long.');
-      return false;
-    }
-
-    formShowErrorMessage(passwordInput, null);
-    return true;
-  }
-
-  function formValidateForm() {
-    let isValidEmail = formValidateEmail();
-    let isValidPassword = formValidatePassword();
-    return isValidEmail && isValidPassword;
-  }
-
-  form.addEventListener('submit', (e) => {
-    e.preventDefault(); // Do not submit to the server
-    if (formValidateForm()) {
-      alert('Success!');
-    }
-  });
-
-  emailInput.addEventListener('input', formValidateEmail);
-  passwordInput.addEventListener('input', formValidatePassword);
-})();
-
 function makeProper(text, everyWord) {
   let wordList = text.split(' ');
-
   function capitaliseWord(word) {
     let restOfWord = word.slice(1);
     return word.charAt(0).toUpperCase() + restOfWord;
   }
-
   if (everyWord) {
     wordList.forEach((element, index) => wordList[index] = capitaliseWord(element));
   } else {
     wordList[0] = capitaliseWord(wordList[0]);
   }
-
   let properText = wordList.join(' ');
   return properText;
 }
