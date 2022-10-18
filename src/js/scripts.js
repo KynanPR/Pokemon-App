@@ -56,6 +56,7 @@ let pokemonRepository = (function() {
 
     let pokemonImage = $('<img class=\'pokemon-modal-image\'>');
     pokemonImage.attr('src', pokemon.imageUrl);
+    pokemonImage.attr('height', 250);
 
     modalTitle.append(pokemonName); // pokemonName is displayed as the title in the modal
     modalBody.append(pokemonImage); // pokemonImage is displayed in the body of the modal
