@@ -1,9 +1,10 @@
 {
     "env": {
         "browser": true,
-        "es2021": true
+        "es2021": true,
+        "jquery": true
     },
-    "extends": "standard",
+    "extends": "eslint:recommended",
     "overrides": [
     ],
     "parserOptions": {
@@ -11,6 +12,7 @@
     },
     "rules": {
         "quotes": ["error", "single"],
-        "comma-dangle": ["error", "always-multiline"]
+        "comma-dangle": ["error", "always-multiline"],
+        "semi": ["error", "always"]
     }
 }
